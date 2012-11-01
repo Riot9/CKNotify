@@ -65,6 +65,11 @@ typedef enum {
 
 }
 
++ (void)setPanelHeight:(CGFloat)panelHeight;
++ (void)setImage:(UIImage*)image forNotifyAlertType:(CKNotifyAlertType)alertType;
++ (void)setAccessoryIcon:(UIImage*)icon forNotifyAlertType:(CKNotifyAlertType)alertType;
++ (void)setAlertFont:(UIFont*)font;
++ (void)setAlertTextColor:(UIColor*)color;
 
 - (void)setSwipeRightAction:(SEL)selector onTarget:(id)target withObject:(id)obj;
 - (void)setSwipeLeftAction:(SEL)selector onTarget:(id)target withObject:(id)obj;

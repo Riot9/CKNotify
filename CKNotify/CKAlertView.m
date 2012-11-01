@@ -13,8 +13,78 @@
 #import "CKAlertView.h"
 #import "CKNotify.h"
 
+static CGFloat panelHeight;
+static UIImage* successImage;
+static UIImage* errorImage;
+static UIImage* infoImage;
+static UIImage* successAccessoryIcon;
+static UIImage* infoAccessoryIcon;
+static UIImage* errorAccessoryIcon;
+
+static UIFont *alertTitleFont;
+static UIColor *alertTextColor;
+
 @implementation CKAlertView
 @synthesize uniqueID, selectorTarget, onTapSelector, selectorObject, myLocation, inView;
+
++ (void)initialize
+{
+    panelHeight = 60.f;
+    successImage = [[[UIImage imageNamed:@"CKGreenPanel"] stretchableImageWithLeftCapWidth:1 topCapHeight:5] retain];
+    infoImage = [[[UIImage imageNamed:@"CKBluePanel"] stretchableImageWithLeftCapWidth:1 topCapHeight:5] retain];
+    errorImage = [[[UIImage imageNamed:@"CKRedPanel.png"] stretchableImageWithLeftCapWidth:1 topCapHeight:5] retain];
+    successAccessoryIcon = [[UIImage imageNamed:@"CKTickIcon"] retain];
+    infoAccessoryIcon = [[UIImage imageNamed:@"CKInfoIcon"] retain];
+    errorAccessoryIcon = [[UIImage imageNamed:@"CKWarningIcon"] retain];
+    alertTitleFont = [[UIFont systemFontOfSize:15.f] retain];
+    alertTextColor = [RGBA(250, 250, 250, 1.0) retain];
+
+}
+
++ (void)setAccessoryIcon:(UIImage *)icon forNotifyAlertType:(CKNotifyAlertType)alertType
+{
+    if (alertType == CKNotifyAlertTypeError){
+        [errorAccessoryIcon release];
+        errorAccessoryIcon = [icon retain];
+    } else if (alertType == CKNotifyAlertTypeInfo){
+        [infoAccessoryIcon release];
+        infoAccessoryIcon = [icon retain];
+    } else if (alertType == CKNotifyAlertTypeSuccess){
+        [successAccessoryIcon release];
+        successAccessoryIcon = [icon retain];
+    }
+}
+
++ (void)setImage:(UIImage *)image forNotifyAlertType:(CKNotifyAlertType)alertType
+{
+    if (alertType == CKNotifyAlertTypeError){
+        [errorImage release];
+        errorImage = [image retain];
+    } else if (alertType == CKNotifyAlertTypeInfo){
+        [infoImage release];
+        infoImage = [image retain];
+    } else if (alertType == CKNotifyAlertTypeSuccess){
+        [successImage release];
+        successImage = [image retain];
+    }
+}
+
++ (void)setAlertFont:(UIFont*)font
+{
+    [alertTitleFont release];
+    alertTitleFont = [font retain];
+}
+
++ (void)setAlertTextColor:(UIColor*)color
+{
+    [alertTextColor release];
+    alertTextColor = [color retain];
+}
+
++ (void)setPanelHeight:(CGFloat)newPanelHeight
+{
+    panelHeight = newPanelHeight;
+}
 
 - (id)init {
     
@@ -45,7 +115,6 @@
     return self;
 }
 
-
 - (void)setTitle:(NSString *)title withBody:(NSString *)body andType:(CKNotifyAlertType)type {
     
     assert(lblTitle && lblBody);
@@ -62,24 +131,24 @@
     switch (type) {
         case CKNotifyAlertTypeSuccess:
             // to-do finish success type
-            imgViewBackround.image = [[UIImage imageNamed:@"CKGreenPanel"] stretchableImageWithLeftCapWidth:1 topCapHeight:5];
-            imgViewIcon.image = [UIImage imageNamed:@"CKTickIcon"];
-            lblTitle.font = [UIFont boldSystemFontOfSize:15];
-            lblBody.textColor = RGBA(235, 235, 235, 1.0);
+            imgViewBackround.image = successImage;
+            imgViewIcon.image = successAccessoryIcon;
+            lblTitle.font = alertTitleFont;
+            lblBody.textColor = alertTextColor;
             lblBody.font = [UIFont fontWithName:@"Helvetica Neue" size:14];
             break;
         case CKNotifyAlertTypeInfo:
-            imgViewBackround.image = [[UIImage imageNamed:@"CKBluePanel"] stretchableImageWithLeftCapWidth:1 topCapHeight:5];
-            imgViewIcon.image = [UIImage imageNamed:@"CKInfoIcon"];
-            lblTitle.font = [UIFont boldSystemFontOfSize:15];
-            lblBody.textColor = RGBA(210, 210, 235, 1.0);
+            imgViewBackround.image = infoImage;
+            imgViewIcon.image = infoAccessoryIcon;
+            lblTitle.font = alertTitleFont;
+            lblBody.textColor = alertTextColor;
             break;
         case CKNotifyAlertTypeError:
-            imgViewBackround.image = [[UIImage imageNamed:@"CKRedPanel.png"] stretchableImageWithLeftCapWidth:1 topCapHeight:5];
-            imgViewIcon.image = [UIImage imageNamed:@"CKWarningIcon"];
+            imgViewBackround.image = errorImage;
+            imgViewIcon.image = errorAccessoryIcon;
             imgViewIcon.alpha = 0.9;
-            lblBody.textColor = [UIColor colorWithRed:1.0 green:0.651f blue:0.651f alpha:1.0];
-            lblTitle.font = [UIFont boldSystemFontOfSize:15];
+            lblBody.textColor = alertTextColor;
+            lblTitle.font = alertTitleFont;
             lblBody.font = [UIFont fontWithName:@"Helvetica Neue" size:14];
             break;
         default:
@@ -91,10 +160,14 @@
         
     if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
         // iPhone/iPod
-        const CGFloat panelHeight = 60;
         self.view.frame = CGRectMake(0, self.view.frame.origin.y, 320, panelHeight);
-        lblBody.frame = CGRectMake(57, 19, 253, 38);
-        lblTitle.frame = CGRectMake(57, 1, 253, 21);
+        if (body.length == 0){
+            CGSize size = [lblTitle sizeThatFits:lblTitle.frame.size];
+            lblTitle.frame = CGRectMake(57.f, size.height/2 - lblTitle.frame.size.height/2, size.width, size.height);
+        } else {
+            lblBody.frame = CGRectMake(57, 19, 253, 38);
+            lblTitle.frame = CGRectMake(57, 1, 253, 21);
+        }
         // fixme if body only has one line, adjust title label down slightly
     }
 

@@ -98,10 +98,10 @@ static CKNotify *sharedInstance = nil;
     
     const CGFloat alertHeight = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 71 : 60;
     const CGFloat viewHeight = alert.inView.frame.size.height;
-
+    const CGFloat startHeight = viewHeight == [[[UIApplication sharedApplication] keyWindow] frame].size.height ? [[UIApplication sharedApplication] statusBarFrame].size.height : 0.f;
     for (int i = 0;; i++) {
         
-        const int y = (alert.myLocation == CKNotifyAlertLocationBottom) ? viewHeight - (alertHeight * (i + 1)) : alertHeight * i;
+        const int y = (alert.myLocation == CKNotifyAlertLocationBottom) ? viewHeight - (alertHeight * (i + 1)) : alertHeight * i + startHeight;
         
         // return early if there are no other alerts
         if (i == 0 && currentAlertsOrdered.count == 0) return y;
