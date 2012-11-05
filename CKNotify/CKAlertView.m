@@ -117,7 +117,7 @@ static UIColor *alertTextColor;
 
 - (void)setTitle:(NSString *)title withBody:(NSString *)body andType:(CKNotifyAlertType)type {
     
-    assert(lblTitle && lblBody);
+    assert(lblTitle);
     
     // if they gave a body and no title, switch 'em
     if (body && !title) {
@@ -162,8 +162,8 @@ static UIColor *alertTextColor;
         // iPhone/iPod
         self.view.frame = CGRectMake(0, self.view.frame.origin.y, 320, panelHeight);
         if (body.length == 0){
-            CGSize size = [lblTitle sizeThatFits:lblTitle.frame.size];
-            lblTitle.frame = CGRectMake(57.f, size.height/2 - lblTitle.frame.size.height/2, size.width, size.height);
+            CGSize size = [lblTitle.text sizeWithFont:lblTitle.font constrainedToSize:CGSizeMake(lblTitle.frame.size.width, 9999.f) lineBreakMode:NSLineBreakByWordWrapping];
+            lblTitle.frame = CGRectMake(57.f, size.height/2 - lblTitle.frame.size.height/2, lblTitle.frame.size.width, size.height);
         } else {
             lblBody.frame = CGRectMake(57, 19, 253, 38);
             lblTitle.frame = CGRectMake(57, 1, 253, 21);
