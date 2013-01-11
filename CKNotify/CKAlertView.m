@@ -163,7 +163,7 @@ static UIColor *alertTextColor;
         self.view.frame = CGRectMake(0, self.view.frame.origin.y, 320, panelHeight);
         if (body.length == 0){
             CGSize size = [lblTitle.text sizeWithFont:lblTitle.font constrainedToSize:CGSizeMake(lblTitle.frame.size.width, 9999.f) lineBreakMode:NSLineBreakByWordWrapping];
-            lblTitle.frame = CGRectMake(57.f, size.height/2 - lblTitle.frame.size.height/2, lblTitle.frame.size.width, size.height);
+            lblTitle.frame = CGRectMake(57.f, ceilf(panelHeight/2 - size.height/2), lblTitle.frame.size.width, size.height);
         } else {
             lblBody.frame = CGRectMake(57, 19, 253, 38);
             lblTitle.frame = CGRectMake(57, 1, 253, 21);
@@ -176,7 +176,7 @@ static UIColor *alertTextColor;
         lblBody.hidden = YES;
         if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
             // iPhone/iPod
-            lblTitle.center = CGPointMake(lblTitle.center.x, (self.view.frame.size.height / 2) - 2);
+//            lblTitle.center = CGPointMake(lblTitle.center.x, (self.view.frame.size.height / 2) - 2);
         } else {
             // iPad
             lblTitle.center = CGPointMake(lblTitle.center.x, (self.view.frame.size.height / 2) - 4);
