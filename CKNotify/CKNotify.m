@@ -138,12 +138,21 @@ static CKNotify *sharedInstance = nil;
     
     assert(view && alert);
     
-    const CGFloat viewWidth = view.frame.size.width;
-    const CGFloat viewHeight = view.frame.size.height;
-    const CGFloat alertHeight = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 71 : 60;
+    CGFloat viewWidth = view.frame.size.width;
+    CGFloat viewHeight = view.frame.size.height;
+    CGFloat alertHeight = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 71 : 60;
+    
+    CGAffineTransform trans = view.transform;
+    if (trans.b == -1 || trans.c == -1){
+        CGFloat temp = viewWidth;
+        viewWidth = viewHeight;
+        viewHeight = viewWidth;
+    }
     
     assert(![currentAlerts objectForKey:alert.uniqueID]);
 
+    
+    
     const int y = (alert.myLocation == CKNotifyAlertLocationBottom) ? viewHeight : -alertHeight;
 
     // start here

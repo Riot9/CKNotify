@@ -36,7 +36,7 @@ static UIColor *alertTextColor;
     successAccessoryIcon = [[UIImage imageNamed:@"CKTickIcon"] retain];
     infoAccessoryIcon = [[UIImage imageNamed:@"CKInfoIcon"] retain];
     errorAccessoryIcon = [[UIImage imageNamed:@"CKWarningIcon"] retain];
-    alertTitleFont = [[UIFont systemFontOfSize:15.f] retain];
+    alertTitleFont = [[UIFont fontWithName:@"Gotham-Bold" size:15.f] retain];
     alertTextColor = [RGBA(250, 250, 250, 1.0) retain];
 
 }
@@ -160,7 +160,7 @@ static UIColor *alertTextColor;
         
     if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
         // iPhone/iPod
-        self.view.frame = CGRectMake(0, self.view.frame.origin.y, 320, panelHeight);
+        self.view.frame = CGRectMake(0, self.view.frame.origin.y, self.view.frame.size.width, panelHeight);
         if (body.length == 0){
             CGSize size = [lblTitle.text sizeWithFont:lblTitle.font constrainedToSize:CGSizeMake(lblTitle.frame.size.width, 9999.f) lineBreakMode:NSLineBreakByWordWrapping];
             lblTitle.frame = CGRectMake(57.f, ceilf(panelHeight/2 - size.height/2), lblTitle.frame.size.width, size.height);
