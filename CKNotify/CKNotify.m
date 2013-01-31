@@ -144,9 +144,7 @@ static CKNotify *sharedInstance = nil;
     
     CGAffineTransform trans = view.transform;
     if (trans.b == -1 || trans.c == -1){
-        CGFloat temp = viewWidth;
         viewWidth = viewHeight;
-        viewHeight = viewWidth;
     }
     
     assert(![currentAlerts objectForKey:alert.uniqueID]);
