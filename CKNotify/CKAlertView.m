@@ -36,7 +36,7 @@ static UIColor *alertTextColor;
     successAccessoryIcon = [[UIImage imageNamed:@"CKTickIcon"] retain];
     infoAccessoryIcon = [[UIImage imageNamed:@"CKInfoIcon"] retain];
     errorAccessoryIcon = [[UIImage imageNamed:@"CKWarningIcon"] retain];
-    alertTitleFont = [[UIFont fontWithName:@"Gotham-Bold" size:15.f] retain];
+    alertTitleFont = [[UIFont fontWithName:@"ProximaNova-Bold" size:15.f] retain];
     alertTextColor = [RGBA(250, 250, 250, 1.0) retain];
 
 }
